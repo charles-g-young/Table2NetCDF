@@ -1,0 +1,70 @@
+<!-- A descriptor for a table-oriented data file to be transformed into a netCDF file -->
+<table-data-set>
+
+	<!-- A name for this collection -->
+	<name></name>
+	<!-- An OID for this collection -->
+	<oid></oid>
+
+	<!-- Define the global attribute (global metadata) collection -->
+	<global-attributes>
+		<!-- An element from the global metadata collection -->
+		<global-attribute>
+			<!-- Name of attribute -->
+			<name>foo</name>
+			<data-type>string</data-type>
+			<!-- How we locate this global attribute in the header -->
+			<global-attribute-strategy>
+				<!-- Dynamically load a class that implements a strategy
+				for this attribute. -->
+				<class-name>aClassToParseGlobalAttributes</class-name>
+			</global-attribute-strategy>
+		</global-attribute>
+		<global-attribute>
+			<name>blee</name>
+			<data-type>int</data-type>
+			<global-attribute-strategy>
+				<class-name>gov.noaa.gmd.table_2_netcdf.GlobalAttributeStrategy.StrategyDummy</class-name>
+			</global-attribute-strategy>
+		</global-attribute>
+	</global-attributes>
+
+	<!-- Define the variable attribute (variable metadata) collection -->
+	<variable-attributes>
+		<variable-attribute>
+			<!-- Name of variable the attribute is describing -->
+			<variable-name></variable-name>
+			<!-- How we locate this variable attribute in the header -->
+			<variable-attribute-strategy>
+				<!-- Dynamically load a class that implements a strategy
+				for this attribute. -->
+				<class-name></class-name>
+			</variable-attribute-strategy>
+			<!-- Attributes may define multiple properties -->
+			<property>
+				<name></name>
+				<value></value>
+			</property>
+		</variable-attribute>
+	</variable-attributes>
+
+	<!-- A non-table variable - variables that are defined outside the table -->
+	<variables>
+		<name>lat</name>
+		<!-- How do we locate the variable -->
+		<variable-strategy>
+			<!-- Dynamically load a class that implements a strategy
+			for this variable. -->
+		</variable-strategy>
+	</variables>
+
+	<!-- Define the table of variables -->
+	<table>
+		<column>
+			<index>1</index>
+			<name>foo</name>
+			<type>integer</type>
+		</column>
+	</table>
+	
+</table-data-set>
