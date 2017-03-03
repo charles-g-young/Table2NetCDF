@@ -8,9 +8,9 @@ Created on Feb 27, 2017
 '''
 
 import sys
-from TableDataDesc import TableDataDesc
-from TableDataSet import TableDataSet
-from NetCDFWriter import NetCDFWriter
+from gov.noaa.gmd.table_2_netcdf.TableDataDesc import TableDataDesc
+from gov.noaa.gmd.table_2_netcdf.TableDataSet import TableDataSet
+from gov.noaa.gmd.table_2_netcdf.NetCDFWriter import NetCDFWriter
 
 class Table2NetCDF :
   

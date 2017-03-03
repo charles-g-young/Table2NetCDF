@@ -9,7 +9,7 @@ Created on Feb 27, 2017
 @author: cyoung
 '''
 
-import TableDataDesc
+import gov.noaa.gmd.table_2_netcdf.TableDataDesc
 
 class DataSet :
     def  __init__ (self, inputFile, dataSetDesc):
