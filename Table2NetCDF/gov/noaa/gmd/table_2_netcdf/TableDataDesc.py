@@ -8,6 +8,7 @@ Created on Feb 27, 2017
 '''
 
 import  xml.etree.ElementTree as ElementTree
+from gov.noaa.gmd.table_2_netcdf.Util import Util
 
 class TableDataDesc:
 
@@ -118,8 +119,9 @@ class GlobalAttributeStrategyDesc:
     #Return the value parsed from the header of the given global attribute
     def parse (self, attributeName, header):
         #Instantiate the strategy class by name.
-        print("class name "+self.strategyClassName)
-        clazz=self.__getClass(self.strategyClassName)
+        #print("class name "+self.strategyClassName)
+        util=Util()
+        clazz=util.getClass(self.strategyClassName)
         c=clazz()
         return c.parse(attributeName, header)
 
@@ -127,16 +129,6 @@ class GlobalAttributeStrategyDesc:
         if self.strategyClassName != other.strategyClassName:
             return False
         return True
-
-    # Get a class by fully qualified name.
-    def __getClass(self, kls):
-        parts = kls.split('.')
-        moduleName = ".".join(parts[:-1])
-        #print("module "+module)
-        #print("attr "+parts[-1])
-        mod = __import__(moduleName, fromlist=[parts[-1]])
-        clazz = getattr(mod, parts[-1])
-        return clazz
 
 class VariableAttributeDesc:
     def  __init__ (self, variableName, variableType, attributes):
