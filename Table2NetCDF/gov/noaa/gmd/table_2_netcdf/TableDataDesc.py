@@ -114,29 +114,29 @@ class GlobalAttributeDesc:
 class GlobalAttributeStrategyDesc:
     def  __init__ (self, strategyClassName):
         self.strategyClassName=strategyClassName
-    #Return the value parsed from the header of the given global attribute
 
+    #Return the value parsed from the header of the given global attribute
     def parse (self, attributeName, header):
         #Instantiate the strategy class by name.
-        #clazz=self.__getClass(self.strategyClassName)
-        
-        #return clazz.parse(attributeName, header)
-        return "dummy"
+        print("class name "+self.strategyClassName)
+        clazz=self.__getClass(self.strategyClassName)
+        c=clazz()
+        return c.parse(attributeName, header)
 
     def __eq__(self, other):
         if self.strategyClassName != other.strategyClassName:
             return False
         return True
 
-    # Instantiate a strategy class by name.
-    # TBD - make this method do the right thing.
+    # Get a class by fully qualified name.
     def __getClass(self, kls):
         parts = kls.split('.')
-        module = ".".join(parts[:-1])
-        m = __import__( module )
-        for comp in parts[1:]:
-            m = getattr(m, comp)            
-            return m
+        moduleName = ".".join(parts[:-1])
+        #print("module "+module)
+        #print("attr "+parts[-1])
+        mod = __import__(moduleName, fromlist=[parts[-1]])
+        clazz = getattr(mod, parts[-1])
+        return clazz
 
 class VariableAttributeDesc:
     def  __init__ (self, variableName, variableType, attributes):
