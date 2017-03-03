@@ -9,6 +9,7 @@ Created on Feb 27, 2017
 
 import  xml.etree.ElementTree as ElementTree
 from gov.noaa.gmd.table_2_netcdf.Util import Util
+from Finder.Type_Definitions import column
 
 class TableDataDesc:
 
@@ -18,20 +19,25 @@ class TableDataDesc:
     ELEMENT_GLOBAL_ATTRIBUTE="global-attribute"
     ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY="global-attribute-strategy"
     ELEMENT_CLASS_NAME="class-name"
+    ELEMENT_COLUMN="column"
+    ELEMENT_INDEX="index"
 
     def  __init__ (self, xmlFile):
         self.xmlFile=xmlFile
         self.tree = ElementTree.parse(xmlFile)
 
-    def getAllColumnDesc (self):
+    def getAllColumnDesc(self):
         pass
     def getAllGlobalAttributeDesc(self):
         pass
     def getAllVariableAttributeDesc(self):
         pass
     def getColumnDesc(self, columnName):
-        #New Comment
-        pass
+        element=self.__getColumnDesc(columnName)
+        name=element.find(self.ELEMENT_NAME).text
+        index=element.find(self.ELEMENT_INDEX).text
+        dataType=element.find(self.ELEMENT_DATA_TYPE).text
+        return ColumnDesc(columnName, index, dataType)
 
     def getGlobalAttributeDesc(self, attributeName):
         element=self.__getGlobalAttributeElement(attributeName)
@@ -70,6 +76,18 @@ class TableDataDesc:
         element=globalAttributeElement.find(self.ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY)
         if element is None:
             raise Exception(self.ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY+" element with name '"+attributeName+
+                            "' not found in file '"+self.xmlFile+"'.")
+        return element
+    
+    def __getColumnDesc(self, columnName):
+        root = self.tree.getroot()
+        elements=root.findall(".//"+self.ELEMENT_COLUMN)
+        for e in elements:
+            if e.find(self.ELEMENT_COLUMN).text==columnName:
+                element=e
+                break
+            if element is None:
+                raise Exception(self.ELEMENT_COLUMN+" column with name '"+columnName+
                             "' not found in file '"+self.xmlFile+"'.")
         return element
 

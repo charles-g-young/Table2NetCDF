@@ -65,6 +65,11 @@
 			<name>foo</name>
 			<type>integer</type>
 		</column>
+		<column>
+			<index>2</index>
+			<name>bar</name>
+			<type>string</type>
+		</column>
 	</table>
 	
 </table-data-set>

@@ -46,3 +46,12 @@ class TableDataDescTest(unittest.TestCase):
 
         #Expected
         self.assertEqual(value, "dummy")
+        
+    def test_ColumnDesc(self):
+        #Actual
+        tableDataDesc=TableDataDesc(self.XML_FILE)
+        actual=tableDataDesc.getColumnDesc("foo")
+        value=actual.parse("blee", "a header string")
+
+        #Expected
+        self.assertEqual(value, "dummy")
