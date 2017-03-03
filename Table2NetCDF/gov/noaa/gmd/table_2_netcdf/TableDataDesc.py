@@ -72,6 +72,11 @@ class TableDataDesc:
                             "' not found in file '"+self.xmlFile+"'.")
         return element
 
+    def __eq__(self, other):
+        if self.xmlFile != other.xmlFile:
+            return False
+        return True
+
 class ColumnDesc:
     def  __init__ (self, columnName, index, dataType):
         self.columnName=columnName

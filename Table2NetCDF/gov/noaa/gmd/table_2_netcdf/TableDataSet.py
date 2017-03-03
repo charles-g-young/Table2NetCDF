@@ -11,16 +11,28 @@ Created on Feb 27, 2017
 
 import gov.noaa.gmd.table_2_netcdf.TableDataDesc
 
-class DataSet :
+class DataSet:
     def  __init__ (self, inputFile, dataSetDesc):
         self.inputFile=inputFile
         self.dataSetDesc=dataSetDesc
-    def getVariable(self, variableName):
+    def getAllGlobalAttributes(self):
         pass
     def getAllVariables(self):
         pass
+    def getGlobalAttribute(self, attributeName):
+        pass
+    def getVariable(self, variableName):
+        pass
+    def getVariableAttributes(self, variableName):
+        pass
+    def __eq__(self, other):
+        if self.inputFile != other.inputFile:
+            return False
+        if self.dataSetDesc != other.dataSetDesc:
+            return False
+        return True
 
-class Variable :
+class GlobalAttribute:
     def  __init__ (self, name, value):
         self.name=name
         self.value=value
@@ -28,6 +40,45 @@ class Variable :
         return self.name
     def getValue(self):
         return self.value
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.value != other.value:
+            return False
+        return True
+
+class Variable:
+    def  __init__ (self, name, value):
+        self.name=name
+        self.value=value
+    def getName(self):
+        return self.name
+    def getValue(self):
+        return self.value
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.value != other.value:
+            return False
+        return True
+
+class VariableAttribute:
+    def  __init__ (self, name, value):
+        self.name=name
+        self.value=value
+    def getName(self):
+        return self.name
+    def getValue(self):
+        return self.value
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.value != other.value:
+            return False
+        return True
+
+class Row:
+    pass
 
 class TableDataSet (DataSet):
 
@@ -37,9 +88,16 @@ class TableDataSet (DataSet):
 
     def parse(self):
         pass
+    
+    def getRows(self):
+        pass
 
-class TableDataDesc :
-    pass
+    def __eq__(self, other):
+        if self.inputFile != other.inputFile:
+            return False
+        if self.tableDataDesc != other.tableDataDesc:
+            return False
+        return True
 
 class Row :
     pass
