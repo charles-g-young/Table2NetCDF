@@ -30,6 +30,7 @@ class TableDataDesc:
     def getAllVariableAttributeDesc(self):
         pass
     def getColumnDesc(self, columnName):
+        #New Comment
         pass
 
     def getGlobalAttributeDesc(self, attributeName):
