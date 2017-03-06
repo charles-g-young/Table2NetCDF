@@ -9,24 +9,35 @@ Created on Feb 27, 2017
 @author: cyoung
 '''
 
-import gov.noaa.gmd.table_2_netcdf.TableDataDesc
+#import gov.noaa.gmd.table_2_netcdf.TableDataDesc
 
 class DataSet:
-    def  __init__ (self, inputFile, dataSetDesc):
-        self.inputFile=inputFile
+    def  __init__ (self, inputFileName, dataSetDesc):
+        self.inputFileName=inputFileName
         self.dataSetDesc=dataSetDesc
+        self.file = open(inputFileName, "r", encoding="utf-8")
+        
     def getAllGlobalAttributes(self):
-        pass
+        result=[GlobalAttribute("ga1","ga1v"),GlobalAttribute("ga2","ga2v")]
+        return result
+
     def getAllVariables(self):
-        pass
+        result=[Variable("var1","var1v"),Variable("var2","var2v")]
+        return result
+
     def getGlobalAttribute(self, attributeName):
         pass
     def getVariable(self, variableName):
         pass
-    def getVariableAttributes(self, variableName):
+    def getVariableAttribute(self, variableName):
         pass
+
+    def getAllVariableAttributes(self, variableName):
+        result=[VariableAttribute("var1","var1v"),VariableAttribute("var2","var2v")]
+        return result
+
     def __eq__(self, other):
-        if self.inputFile != other.inputFile:
+        if self.inputFileName != other.inputFileName:
             return False
         if self.dataSetDesc != other.dataSetDesc:
             return False
@@ -82,9 +93,9 @@ class Row:
 
 class TableDataSet (DataSet):
 
-    def  __init__ (self, inputFile, tableDataDesc):
+    def  __init__ (self, inputFileName, tableDataDesc):
         self.tableDataDesc=tableDataDesc
-        self.inputFile=inputFile
+        self.inputFileName=inputFileName
 
     def parse(self):
         pass
@@ -93,7 +104,7 @@ class TableDataSet (DataSet):
         pass
 
     def __eq__(self, other):
-        if self.inputFile != other.inputFile:
+        if self.inputFileName != other.inputFileName:
             return False
         if self.tableDataDesc != other.tableDataDesc:
             return False

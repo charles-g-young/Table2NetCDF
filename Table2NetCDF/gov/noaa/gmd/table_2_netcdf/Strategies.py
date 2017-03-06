@@ -9,9 +9,13 @@ Created on Mar 1, 2017
 #Currently we just define a method 'parse" that subclasses will implement to do specific parsing.
 class GlobalAttributeStrategy:
     def parse(self, attributeName, header):
-        return None
+        return "Method 'parse()' not over-ridden."
 
-#A strategy for use in unit tests where we don't need a real strategy.
-class StrategyDummy(GlobalAttributeStrategy):
+#A global attribute strategy for use in unit tests where we don't need a real strategy.
+class GlobalAttributeStrategyDummy(GlobalAttributeStrategy):
     def parse(self, attributeName, header):
+        return "dummy"
+
+class HeaderStrategyDummy():
+    def parse(self,file):
         return "dummy"

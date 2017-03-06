@@ -24,7 +24,7 @@
 			<name>blee</name>
 			<data-type>int</data-type>
 			<global-attribute-strategy>
-				<class-name>gov.noaa.gmd.table_2_netcdf.GlobalAttributeStrategy.StrategyDummy</class-name>
+				<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.GlobalAttributeStrategyDummy</class-name>
 			</global-attribute-strategy>
 		</global-attribute>
 	</global-attributes>

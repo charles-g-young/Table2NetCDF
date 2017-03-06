@@ -13,7 +13,7 @@ from gov.noaa.gmd.table_2_netcdf.TableDataDesc import GlobalAttributeStrategyDes
 class TableDataDescTest(unittest.TestCase):
 
     XML_FILE="table-data-set.xml"
-    STRATEGY_CLASS="gov.noaa.gmd.table_2_netcdf.GlobalAttributeStrategy.StrategyDummy"
+    STRATEGY_CLASS="gov.noaa.gmd.table_2_netcdf.Strategies.GlobalAttributeStrategyDummy"
 
     def test_init(self):
         print ("working dir ", os.getcwd())
