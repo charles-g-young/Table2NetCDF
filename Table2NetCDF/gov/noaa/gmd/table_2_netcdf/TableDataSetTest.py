@@ -7,12 +7,15 @@ Created on Mar 5, 2017
 import unittest
 from gov.noaa.gmd.table_2_netcdf.TableDataDesc import TableDataDesc
 from gov.noaa.gmd.table_2_netcdf.TableDataSet import GlobalAttribute
+from gov.noaa.gmd.table_2_netcdf import Properties
 from gov.noaa.gmd.table_2_netcdf.TableDataSet import TableDataSet
 from gov.noaa.gmd.table_2_netcdf.TableDataSet import Variable
 
 class TableDataSetTest(unittest.TestCase):
-    INPUT_FILE="test-input.txt"
-    XML_FILE="table-data-set.xml"
+
+    INPUT_FILE=Properties.TEST_DATA_DIR+"/dummy-data-set.txt"
+    XML_FILE=Properties.TEST_DATA_DIR+"/dummy-data-set.xml"
+
     def test_init(self):
         tableDataDesc=TableDataDesc(self.XML_FILE)
         TableDataSet(self.INPUT_FILE, tableDataDesc)

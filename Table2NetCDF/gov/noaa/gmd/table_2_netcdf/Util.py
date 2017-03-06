@@ -15,5 +15,5 @@ class Util:
         #print("attr "+parts[-1])
         mod = __import__(moduleName, fromlist=[parts[-1]])
         clazz = getattr(mod, parts[-1])
-        return clazz
+        return clazz()
     

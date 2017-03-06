@@ -1,10 +1,19 @@
-<!-- A descriptor for a table-oriented data file to be transformed into a netCDF file -->
+<!-- A descriptor for a table-oriented data file to be transformed into a netCDF file.
+This particular example is for a dummy data set for unit test. -->
+
 <table-data-set>
 
 	<!-- A name for this collection -->
-	<name></name>
+	<name>A dummy data set</name>
 	<!-- An OID for this collection -->
-	<oid></oid>
+	<oid>0987g87g8787</oid>
+
+	<!-- Describe how to parse the header.-->
+	<header>
+		<header-strategy>
+			<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.HeaderStrategyDummy</class-name>
+		</header-strategy>
+	</header>
 
 	<!-- Define the global attribute (global metadata) collection -->
 	<global-attributes>

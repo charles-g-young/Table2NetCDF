@@ -9,10 +9,11 @@ import unittest
 from gov.noaa.gmd.table_2_netcdf.TableDataDesc import TableDataDesc
 from gov.noaa.gmd.table_2_netcdf.TableDataDesc import GlobalAttributeDesc
 from gov.noaa.gmd.table_2_netcdf.TableDataDesc import GlobalAttributeStrategyDesc
+from gov.noaa.gmd.table_2_netcdf import Properties
 
 class TableDataDescTest(unittest.TestCase):
 
-    XML_FILE="table-data-set.xml"
+    XML_FILE=Properties.TEST_DATA_DIR+"/dummy-data-set.xml"
     STRATEGY_CLASS="gov.noaa.gmd.table_2_netcdf.Strategies.GlobalAttributeStrategyDummy"
 
     def test_init(self):

@@ -117,23 +117,33 @@ class GlobalAttributeDesc:
             return False
         return True
 
-class GlobalAttributeStrategyDesc:
+#A base class for strategy descriptions.
+class StrategyDesc(object):
+    #Hold the name of the strategy class to be loaded.
     def  __init__ (self, strategyClassName):
         self.strategyClassName=strategyClassName
-
-    #Return the value parsed from the header of the given global attribute
-    def parse (self, attributeName, header):
-        #Instantiate the strategy class by name.
-        #print("class name "+self.strategyClassName)
-        util=Util()
-        clazz=util.getClass(self.strategyClassName)
-        c=clazz()
-        return c.parse(attributeName, header)
 
     def __eq__(self, other):
         if self.strategyClassName != other.strategyClassName:
             return False
         return True
+
+class GlobalAttributeStrategyDesc(StrategyDesc):
+    def __init__ (self, strategyClassName):
+        super().__init__(strategyClassName)
+    #Return the value parsed from the header of the given global attribute
+    def parse (self, attributeName, header):
+        #Instantiate the strategy class by name.
+        c=Util().getClass(self.strategyClassName)
+        return c.parse(attributeName, header)
+
+class HeaderStrategyDesc(StrategyDesc):
+    def __init__ (self, strategyClassName):
+        super().__init__(strategyClassName)
+    #Return the header parsed from the file.
+    def parse (self, file):
+        c=Util.getClass(self.strategyClassName)
+        return c.parse(file)
 
 class VariableAttributeDesc:
     def  __init__ (self, variableName, variableType, attributes):
