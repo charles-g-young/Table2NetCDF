@@ -98,6 +98,4 @@ class TableDataSet (DataSet):
         if self.tableDataDesc != other.tableDataDesc:
             return False
         return True
-
-class Row :
     pass
