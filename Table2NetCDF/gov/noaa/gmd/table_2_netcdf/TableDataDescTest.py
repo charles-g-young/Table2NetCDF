@@ -14,6 +14,9 @@ class TableDataDescTest(unittest.TestCase):
 
     XML_FILE="table-data-set.xml"
     STRATEGY_CLASS="gov.noaa.gmd.table_2_netcdf.GlobalAttributeStrategy.StrategyDummy"
+    COLUMN_INDEX="1"
+    COLUMN_NAME="foo"
+    COLUMN_DATATYPE="integer"
 
     def test_init(self):
         print ("working dir ", os.getcwd())
@@ -42,16 +45,17 @@ class TableDataDescTest(unittest.TestCase):
         #Actual
         tableDataDesc=TableDataDesc(self.XML_FILE)
         actual=tableDataDesc.getGlobalAttributeStrategyDesc("blee")
-        value=actual.parse("blee", "a header string")
 
         #Expected
+        expected
         self.assertEqual(value, "dummy")
         
     def test_ColumnDesc(self):
         #Actual
         tableDataDesc=TableDataDesc(self.XML_FILE)
         actual=tableDataDesc.getColumnDesc("foo")
-        value=actual.parse("blee", "a header string")
 
         #Expected
-        self.assertEqual(value, "dummy")
+        self.assertEqual(actual.columnName, COLUMN_NAME)
+        self.assertEqual(actual.index, COLUMN_INDEX)
+        self.assertEqual(actual.dataType, COLUMN_DATATYPE)
