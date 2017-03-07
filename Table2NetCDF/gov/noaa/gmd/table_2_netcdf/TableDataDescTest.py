@@ -59,3 +59,6 @@ class TableDataDescTest(unittest.TestCase):
         self.assertEqual(actual.columnName, COLUMN_NAME)
         self.assertEqual(actual.index, COLUMN_INDEX)
         self.assertEqual(actual.dataType, COLUMN_DATATYPE)
+        
+    def test_getAllColumnDesc(self):
+        pass
