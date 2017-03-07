@@ -17,7 +17,13 @@ class TableDataDesc:
     ELEMENT_DATA_TYPE="data-type"
     ELEMENT_GLOBAL_ATTRIBUTE="global-attribute"
     ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY="global-attribute-strategy"
+    ELEMENT_HEADER_STRATEGY="header-strategy"
     ELEMENT_CLASS_NAME="class-name"
+    ELEMENT_VARIABLE="variable"
+    ELEMENT_VARIABLE_ATTRIBUTE="variable-attribute"
+    ELEMENT_VARIABLE_ATTRIBUTE_STRATEGY="variable-attribute-strategy"
+    ELEMENT_VARIABLE_NAME="variable-name"
+    ELEMENT_VARIABLE_STRATEGY="variable-strategy"
 
     def  __init__ (self, xmlFile):
         self.xmlFile=xmlFile
@@ -25,31 +31,67 @@ class TableDataDesc:
 
     def getAllColumnDesc (self):
         pass
+
     def getAllGlobalAttributeDesc(self):
-        pass
+        root = self.tree.getroot()
+        elements=root.findall(".//"+self.ELEMENT_GLOBAL_ATTRIBUTE)
+        gads=[]
+        for e in elements:
+            gads.append(self.__getGlobalAttributeDesc(e))
+        return gads
+
     def getAllVariableAttributeDesc(self):
-        pass
+        root = self.tree.getroot()
+        elements=root.findall(".//"+self.ELEMENT_VARIABLE_ATTRIBUTE)
+        gads=[]
+        for e in elements:
+            gads.append(self.__getVariableAttributeDesc(e))
+        return gads
+
+    def getAllVariableDesc(self):
+        root = self.tree.getroot()
+        elements=root.findall(".//"+self.ELEMENT_VARIABLE)
+        gads=[]
+        for e in elements:
+            gads.append(self.__getVariableDesc(e))
+        return gads
+
     def getColumnDesc(self, columnName):
         pass
 
     def getGlobalAttributeDesc(self, attributeName):
         element=self.__getGlobalAttributeElement(attributeName)
-        name=element.find(self.ELEMENT_NAME).text
-        dataType=element.find(self.ELEMENT_DATA_TYPE).text
-        child=element.find(self.ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY)
-        className=child.find(self.ELEMENT_CLASS_NAME).text
-        strategyDesc=GlobalAttributeStrategyDesc(className)
-        return GlobalAttributeDesc(name, dataType, strategyDesc)
+        return self.__getGlobalAttributeDesc(element)
 
     def getGlobalAttributeStrategyDesc(self, attributeName):
         element=self.__getGlobalAttributeStrategyElement(attributeName)
         className=element.find(self.ELEMENT_CLASS_NAME).text
         return GlobalAttributeStrategyDesc(className)
 
+    def getHeaderStrategyDesc(self):
+        element=self.__getHeaderStrategyElement()
+        className=element.find(self.ELEMENT_CLASS_NAME).text
+        return HeaderStrategyDesc(className)
+
     def getVariableAttributeDesc(self, variableName):
         pass
     def getVariableAttributeStrategyDesc(self, variableName):
         pass
+
+    def getVariableDesc(self, variableName):
+        element=self.__getVariableElement()
+        name=element.find(self.ELEMENT_NAME).text
+        child=element.find(self.ELEMENT_VARIABLE_STRATEGY)
+        className=child.find(self.ELEMENT_CLASS_NAME).text
+        return VariableDesc(name, className)
+
+    def __getGlobalAttributeDesc(self, element):
+        name=element.find(self.ELEMENT_NAME).text
+        dataType=element.find(self.ELEMENT_DATA_TYPE).text
+        child=element.find(self.ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY)
+        className=child.find(self.ELEMENT_CLASS_NAME).text
+        strategyDesc=GlobalAttributeStrategyDesc(className)
+        return GlobalAttributeDesc(name, dataType, strategyDesc)
 
     def __getGlobalAttributeElement(self, attributeName):
         root = self.tree.getroot()
@@ -71,6 +113,29 @@ class TableDataDesc:
             raise Exception(self.ELEMENT_GLOBAL_ATTRIBUTE_STRATEGY+" element with name '"+attributeName+
                             "' not found in file '"+self.xmlFile+"'.")
         return element
+
+    def __getVariableAttributeDesc(self, element):
+        name=element.find(self.ELEMENT_VARIABLE_NAME).text
+        dataType=element.find(self.ELEMENT_DATA_TYPE).text
+        child=element.find(self.ELEMENT_VARIABLE_ATTRIBUTE_STRATEGY)
+        className=child.find(self.ELEMENT_CLASS_NAME).text
+        strategyDesc=VariableAttributeStrategyDesc(className)
+        return VariableAttributeDesc(name, dataType, "attributes", strategyDesc)
+
+    def __getVariableDesc(self, element):
+        name=element.find(self.ELEMENT_NAME).text
+        child=element.find(self.ELEMENT_VARIABLE_STRATEGY)
+        className=child.find(self.ELEMENT_CLASS_NAME).text
+        strategyDesc=VariableStrategyDesc(className)
+        return VariableDesc(name, strategyDesc)
+
+    def __getHeaderStrategyElement(self):
+        root = self.tree.getroot()
+        elements=root.findall(".//"+self.ELEMENT_HEADER_STRATEGY)
+        if len(elements) == 0:
+            raise Exception(self.ELEMENT_HEADER_STRATEGY+" element "+
+                            "' not found in file '"+self.xmlFile+"'.")
+        return elements[0]
 
     def __eq__(self, other):
         if self.xmlFile != other.xmlFile:
@@ -98,22 +163,22 @@ class ColumnDesc:
         return True
 
 class GlobalAttributeDesc:
-    def  __init__ (self, attributeName, attributeType, globalAttributeStrategy):
+    def  __init__ (self, attributeName, attributeType, globalAttributeStrategyDesc):
         self.attributeName=attributeName
         self.attributeType=attributeType
-        self.globalAttributeStrategy=globalAttributeStrategy
+        self.globalAttributeStrategyDesc=globalAttributeStrategyDesc
     def getAttributeName(self):
         return self.attributeName
     def getAttributeType(self):
         return self.attributeType
-    def getGlobalAttributeStrategy(self):
-        return self.globalAttributeStrategy
+    def getGlobalAttributeStrategyDesc(self):
+        return self.globalAttributeStrategyDesc
     def __eq__(self, other):
         if self.attributeName != other.attributeName:
             return False
         if self.attributeType != other.attributeType:
             return False
-        if self.globalAttributeStrategy != other.globalAttributeStrategy:
+        if self.globalAttributeStrategyDesc != other.globalAttributeStrategyDesc:
             return False
         return True
 
@@ -123,6 +188,9 @@ class StrategyDesc(object):
     def  __init__ (self, strategyClassName):
         self.strategyClassName=strategyClassName
 
+    def getStrategyClassName(self):
+        return self.strategyClassName
+
     def __eq__(self, other):
         if self.strategyClassName != other.strategyClassName:
             return False
@@ -131,6 +199,10 @@ class StrategyDesc(object):
 class GlobalAttributeStrategyDesc(StrategyDesc):
     def __init__ (self, strategyClassName):
         super().__init__(strategyClassName)
+
+    def getStrategyClassName(self):
+        return self.strategyClassName
+
     #Return the value parsed from the header of the given global attribute
     def parse (self, attributeName, header):
         #Instantiate the strategy class by name.
@@ -140,22 +212,29 @@ class GlobalAttributeStrategyDesc(StrategyDesc):
 class HeaderStrategyDesc(StrategyDesc):
     def __init__ (self, strategyClassName):
         super().__init__(strategyClassName)
+
+    def getStrategyClassName(self):
+        return self.strategyClassName
+
     #Return the header parsed from the file.
     def parse (self, file):
-        c=Util.getClass(self.strategyClassName)
+        c=Util().getClass(self.strategyClassName)
         return c.parse(file)
 
 class VariableAttributeDesc:
-    def  __init__ (self, variableName, variableType, attributes):
+    def  __init__ (self, variableName, variableType, attributes, variableAttributeStrategyDesc):
         self.variableName=variableName
         self.variableType=variableType
         self.attributes=attributes
+        self.variableAttributeStrategyDesc=variableAttributeStrategyDesc
     def getVariableName(self):
         return self.variableName
     def getVariableType(self):
         return self.variableType
     def getAttributes(self):
         return self.attributes
+    def getVariableAttributeStrategyDesc(self):
+        return self.variableAttributeStrategyDesc
     def __eq__(self, other):
         if self.variableName != other.variableName:
             return False
@@ -171,8 +250,32 @@ class VariableAttributeStrategyDesc:
         self.strategyClassName=strategyClassName
     #Parse the variable attributes from the header
     def parse (self, variableName, header):
-        #Return the Attributes collection
-        pass
+        #Return the variable attribute
+        return Util().getClass(self.strategyClassName).parse(variableName, header)
+
+class VariableDesc:
+    def  __init__ (self, variableName, variableStrategyDesc):
+        self.variableName=variableName
+        self.variableStrategyDesc=variableStrategyDesc
+    def getVariableName(self):
+        return self.variableName
+    def getVariableStrategyDesc(self):
+        return self.variableStrategyDesc
+    def __eq__(self, other):
+        if self.variableName != other.variableName:
+            return False
+        if self.variableStrategyDesc != other.variableStrategyDesc:
+            return False
+        return True
+
+#A strategy for parsing variable attributes
+class VariableStrategyDesc:
+    def  __init__ (self, strategyClassName):
+        self.strategyClassName=strategyClassName
+    #Parse the variable attributes from the header
+    def parse (self, variableName, header):
+        #Return the variable
+        return Util().getClass(self.strategyClassName).parse(variableName, header)
 
 #A variable attribute. Variables may have multiple attributes.
 class Attribute:

@@ -20,17 +20,17 @@ This particular example is for a dummy data set for unit test. -->
 		<!-- An element from the global metadata collection -->
 		<global-attribute>
 			<!-- Name of attribute -->
-			<name>foo</name>
+			<name>dummy1</name>
 			<data-type>string</data-type>
 			<!-- How we locate this global attribute in the header -->
 			<global-attribute-strategy>
 				<!-- Dynamically load a class that implements a strategy
 				for this attribute. -->
-				<class-name>aClassToParseGlobalAttributes</class-name>
+				<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.GlobalAttributeStrategyDummy</class-name>
 			</global-attribute-strategy>
 		</global-attribute>
 		<global-attribute>
-			<name>blee</name>
+			<name>dummy2</name>
 			<data-type>int</data-type>
 			<global-attribute-strategy>
 				<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.GlobalAttributeStrategyDummy</class-name>
@@ -42,12 +42,13 @@ This particular example is for a dummy data set for unit test. -->
 	<variable-attributes>
 		<variable-attribute>
 			<!-- Name of variable the attribute is describing -->
-			<variable-name></variable-name>
+			<variable-name>dummy1</variable-name>
+			<data-type>decimal</data-type>
 			<!-- How we locate this variable attribute in the header -->
 			<variable-attribute-strategy>
 				<!-- Dynamically load a class that implements a strategy
 				for this attribute. -->
-				<class-name></class-name>
+				<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.VariableAttributeStrategyDummy</class-name>
 			</variable-attribute-strategy>
 			<!-- Attributes may define multiple properties -->
 			<property>
@@ -59,12 +60,20 @@ This particular example is for a dummy data set for unit test. -->
 
 	<!-- A non-table variable - variables that are defined outside the table -->
 	<variables>
-		<name>lat</name>
-		<!-- How do we locate the variable -->
-		<variable-strategy>
-			<!-- Dynamically load a class that implements a strategy
-			for this variable. -->
-		</variable-strategy>
+		<variable>
+			<name>dummy1</name>
+			<!-- How do we locate the variable -->
+			<variable-strategy>
+				<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.VariableStrategyDummy</class-name>
+			</variable-strategy>
+		</variable>
+		<variable>
+			<name>dummy2</name>
+			<!-- How do we locate the variable -->
+			<variable-strategy>
+				<class-name>gov.noaa.gmd.table_2_netcdf.Strategies.VariableStrategyDummy</class-name>
+			</variable-strategy>
+		</variable>
 	</variables>
 
 	<!-- Define the table of variables -->

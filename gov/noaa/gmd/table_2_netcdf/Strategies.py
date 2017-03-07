@@ -5,17 +5,24 @@ Created on Mar 1, 2017
 @author: cyoung
 '''
 
-#A base class for parsing global attributes.
-#Currently we just define a method 'parse" that subclasses will implement to do specific parsing.
-class GlobalAttributeStrategy:
-    def parse(self, attributeName, header):
-        return "Method 'parse()' not over-ridden."
+from gov.noaa.gmd.table_2_netcdf.TableDataSet import GlobalAttribute
+from gov.noaa.gmd.table_2_netcdf.TableDataSet import Variable
+from gov.noaa.gmd.table_2_netcdf.TableDataSet import VariableAttribute
 
-#A global attribute strategy for use in unit tests where we don't need a real strategy.
-class GlobalAttributeStrategyDummy(GlobalAttributeStrategy):
+#Dummy strategies for use in unit tests where we don't need a real strategy.
+
+class GlobalAttributeStrategyDummy():
     def parse(self, attributeName, header):
-        return "dummy"
+        return GlobalAttribute(attributeName, attributeName)
 
 class HeaderStrategyDummy():
     def parse(self,file):
         return "dummy"
+
+class VariableAttributeStrategyDummy():
+    def parse(self, attributeName, header):
+        return VariableAttribute(attributeName, attributeName)
+
+class VariableStrategyDummy():
+    def parse(self, variableName, header):
+        return Variable(variableName, variableName)
