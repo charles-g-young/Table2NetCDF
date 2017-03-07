@@ -94,7 +94,11 @@ class TableDataDesc:
     
     def __getGlobalTable(self):
         root = self.tree.getroot()
-        return root.find(".//"+self.ELEMENT_TABLE)
+        tables = root.findall(".//"+self.ELEMENT_TABLE)
+        if len(tables) > 1:
+            raise Exception("There should only be one \'table\' element in this xml file.")
+        else:
+            return root.find(".//"+self.ELEMENT_TABLE)
     
     def __getAllColumns(self):
         columnList = {}
