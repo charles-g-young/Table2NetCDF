@@ -21,13 +21,15 @@ class TableDataDesc:
     ELEMENT_CLASS_NAME="class-name"
     ELEMENT_COLUMN="column"
     ELEMENT_INDEX="index"
+    ELEMENT_TABLE="table"
 
     def  __init__ (self, xmlFile):
         self.xmlFile=xmlFile
         self.tree = ElementTree.parse(xmlFile)
 
     def getAllColumnDesc(self):
-        pass
+        element = __getAllColumns()
+        return element
     def getAllGlobalAttributeDesc(self):
         pass
     def getAllVariableAttributeDesc(self):
@@ -38,7 +40,6 @@ class TableDataDesc:
         index=element.find(self.ELEMENT_INDEX).text
         dataType=element.find(self.ELEMENT_DATA_TYPE).text
         return ColumnDesc(columnName, index, dataType)
-
     def getGlobalAttributeDesc(self, attributeName):
         element=self.__getGlobalAttributeElement(attributeName)
         name=element.find(self.ELEMENT_NAME).text
@@ -90,6 +91,22 @@ class TableDataDesc:
                 raise Exception(self.ELEMENT_COLUMN+" column with name '"+columnName+
                             "' not found in file '"+self.xmlFile+"'.")
         return element
+    
+    def __getGlobalTable(self):
+        root = self.tree.getroot()
+        return root.find(".//"+self.ELEMENT_TABLE)
+    
+    def __getAllColumns(self):
+        columnList = {}
+        table = __getGlobalTable()
+        elements = table.findall(".//"+self.ELEMENT_COLUMN)
+        for e in elements:
+            column = getColumnDesc(e)
+            name = column.columnName
+            columnList[name] = {}
+            columnList[name]['dataType'] = column.dataType
+            columnList[name]['index'] = column.index
+        return columnList
 
 class ColumnDesc:
     def  __init__ (self, columnName, index, dataType):
