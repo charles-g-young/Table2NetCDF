@@ -47,7 +47,6 @@ class TableDataDescTest(unittest.TestCase):
         actual=tableDataDesc.getGlobalAttributeStrategyDesc("blee")
 
         #Expected
-        expected
         self.assertEqual(value, "dummy")
         
     def test_ColumnDesc(self):
