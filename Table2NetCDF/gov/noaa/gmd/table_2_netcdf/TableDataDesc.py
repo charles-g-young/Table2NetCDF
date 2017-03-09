@@ -9,7 +9,6 @@ Created on Feb 27, 2017
 
 import  xml.etree.ElementTree as ElementTree
 from gov.noaa.gmd.table_2_netcdf.Util import Util
-from Finder.Type_Definitions import column
 
 class TableDataDesc:
 
