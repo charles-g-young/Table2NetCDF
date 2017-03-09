@@ -45,6 +45,7 @@ class TableDataDescTest(unittest.TestCase):
         #Actual
         tableDataDesc=TableDataDesc(self.XML_FILE)
         actual=tableDataDesc.getGlobalAttributeStrategyDesc("blee")
+        value=actual.parse("blee", "a header string")
 
         #Expected
         self.assertEqual(value, "dummy")
